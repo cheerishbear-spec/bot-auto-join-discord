@@ -3,12 +3,13 @@ const { StringSession } = require('telegram/sessions');
 const { NewMessage } = require('telegram/events');
 const input = require('input');
 const { log } = require('./utils');
+const config = require('./config');
 
 async function startTelegramListener({ apiId, apiHash, session, channel }, onMessage) {
   if (session) {
-    log(`Loaded session string (length: ${session.length}, starts: "${session.slice(0, 8)}...")`);
+    log(`Loaded session (length: ${session.length}, starts: "${session.slice(0, 8)}...")`);
   } else {
-    log('No session provided, will login via OTP');
+    log('No session file found (.session.txt), will login via OTP');
   }
   const stringSession = new StringSession(session || '');
   const client = new TelegramClient(stringSession, apiId, apiHash, {
@@ -26,8 +27,8 @@ async function startTelegramListener({ apiId, apiHash, session, channel }, onMes
 
   if (!session) {
     const saved = client.session.save();
-    log('>>> Save this TELEGRAM_SESSION to your .env to skip login next time:');
-    log(saved);
+    const sessionPath = config.saveSession(saved);
+    log(`Session saved to ${sessionPath} (next run will auto-login)`);
   }
 
   // Resolve channel entity once to log the title and get its numeric id.
