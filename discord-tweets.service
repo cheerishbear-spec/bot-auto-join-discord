@@ -1,0 +1,16 @@
+[Unit]
+Description=Discord Tweets Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/discord/tweets
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/ubuntu/discord/tweets/venv/bin/python /home/ubuntu/discord/tweets/bot.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

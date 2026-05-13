@@ -1,0 +1,13 @@
+# Discord Twitter Monitor Bot Dependencies
+# Discord Bot Framework
+discord.py>=2.0.0
+
+# Twitter API Client (same as Telegram bot)
+twikit>=2.3.0
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# HTTP Client (dependency for twikit)
+httpx>=0.24.0
+aiohttp>=3.8.0
