@@ -1,0 +1,26 @@
+{
+  "name": "bot-auto-join-discord",
+  "version": "1.0.0",
+  "description": "Auto-join Discord invites sniped from a Telegram public channel.",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "discord",
+    "telegram",
+    "sniper",
+    "auto-join"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "discord.js-selfbot-v13": "^3.4.0",
+    "dotenv": "^16.4.5",
+    "input": "^1.0.1",
+    "telegram": "^2.22.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
