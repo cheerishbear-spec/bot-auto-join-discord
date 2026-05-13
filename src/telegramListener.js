@@ -5,6 +5,11 @@ const input = require('input');
 const { log } = require('./utils');
 
 async function startTelegramListener({ apiId, apiHash, session, channel }, onMessage) {
+  if (session) {
+    log(`Loaded session string (length: ${session.length}, starts: "${session.slice(0, 8)}...")`);
+  } else {
+    log('No session provided, will login via OTP');
+  }
   const stringSession = new StringSession(session || '');
   const client = new TelegramClient(stringSession, apiId, apiHash, {
     connectionRetries: 5,
