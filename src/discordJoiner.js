@@ -24,13 +24,17 @@ class DiscordJoiner {
       throw new Error('Discord client not ready yet');
     }
     try {
+      // Pre-check: skip if already a member of the invite's guild
       const invite = await this.client.fetchInvite(code);
       if (invite.guild && this.client.guilds.cache.has(invite.guild.id)) {
         log(`Already in guild for invite ${code} (${invite.guild.name}), skip`);
         return { ok: true, skipped: true };
       }
-      await invite.acceptInvite(true);
-      log(`Joined invite ${code} -> ${invite.guild?.name ?? 'unknown guild'}`);
+
+      // v3+ API: accept from the client, not the invite object
+      const accepted = await this.client.acceptInvite(code);
+      const guildName = accepted?.name ?? invite.guild?.name ?? 'unknown guild';
+      log(`Joined invite ${code} -> ${guildName}`);
       return { ok: true, skipped: false };
     } catch (err) {
       log(`Failed to join invite ${code}: ${err.message}`);
