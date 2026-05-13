@@ -25,9 +25,11 @@ async function startTelegramListener({ apiId, apiHash, session, channel }, onMes
     log(saved);
   }
 
-  // Resolve channel entity once so filter works with id
+  // Resolve channel entity once to log the title and get its numeric id.
+  // NewMessage filter needs id/username (not an entity object).
   const entity = await client.getEntity(channel);
-  log(`Listening to channel: ${entity.title || channel}`);
+  const chatId = entity.id;
+  log(`Listening to channel: ${entity.title || channel} (id: ${chatId})`);
 
   client.addEventHandler(async (event) => {
     const msg = event.message;
@@ -37,7 +39,7 @@ async function startTelegramListener({ apiId, apiHash, session, channel }, onMes
     } catch (err) {
       log('onMessage handler error:', err.message);
     }
-  }, new NewMessage({ chats: [entity] }));
+  }, new NewMessage({ chats: [chatId] }));
 
   return client;
 }
